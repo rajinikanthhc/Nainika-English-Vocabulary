@@ -1,0 +1,37 @@
+<script>
+
+google.script.run
+.withSuccessHandler(showCategories)
+.getCategories();
+
+function showCategories(data){
+
+let html="<h1>Nainika English Vocabulary</h1>";
+
+html+="<div class='grid'>";
+
+data.forEach(c=>{
+
+html+=`
+
+<div class="card">
+
+<div class="emoji">${c.Emoji}</div>
+
+<h2>${c.Category}</h2>
+
+<p>${c.Words} Words</p>
+
+</div>
+
+`;
+
+});
+
+html+="</div>";
+
+document.getElementById("app").innerHTML=html;
+
+}
+
+</script>
