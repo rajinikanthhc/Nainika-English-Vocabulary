@@ -210,17 +210,25 @@ function showWordList(level, words){
 
     let html = `
 
-    <button onclick="showLevels()">← Back</button>
+<div class="home-page">
 
-    <h1>${currentCategory}</h1>
+<div class="home-header">
 
-    <h2>${level}</h2>
+<button onclick="showLevels()">← Back</button>
 
-    <button onclick="shuffleWords()">🔀 Shuffle</button>
+<h1>${currentCategory}</h1>
 
-    <div class="category-grid">
+<h2>${level}</h2>
 
-    `;
+<button onclick="shuffleWords()">🔀 Shuffle</button>
+
+</div>
+
+<div class="home-content">
+
+<div class="category-grid">
+
+`;
 
     words.forEach((w,index)=>{
 
@@ -240,7 +248,17 @@ function showWordList(level, words){
 
     html += "</div>";
 
-    document.getElementById("app").innerHTML = html;
+    html += `
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+document.getElementById("app").innerHTML = html;
 
 }
 
