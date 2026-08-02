@@ -17,14 +17,12 @@ function getCategories() {
   const headers = values.shift();
 
   const categoryIndex = headers.indexOf("Category");
-  const emojiIndex = headers.indexOf("Emoji");
 
   const map = {};
 
   values.forEach(r => {
 
     const category = r[categoryIndex];
-    const emoji = r[emojiIndex];
 
     if (!category) return;
 
@@ -32,7 +30,6 @@ function getCategories() {
 
       map[category] = {
         Category: category,
-        Emoji: emoji,
         Words: 0
       };
 
@@ -42,7 +39,8 @@ function getCategories() {
 
   });
 
-  return Object.values(map);
+  return Object.values(map)
+    .sort((a,b)=>a.Category.localeCompare(b.Category));
 
 }
 

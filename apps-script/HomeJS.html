@@ -56,21 +56,23 @@ function showCategories(){
 
     categories.forEach(c=>{
 
-        html += `
+    html += `
 
-        <div class="category-card" onclick="loadLevels('${c.Category}')">
+    <div class="category-card" onclick="loadLevels('${c.Category}')">
 
-            <div class="emoji">${c.Emoji}</div>
-
-            <h2>${c.Category}</h2>
-
-            <p>${c.Words} Words</p>
-
+        <div class="emoji">
+            ${c.Category.charAt(0)}
         </div>
 
-        `;
+        <h2>${c.Category}</h2>
 
-    });
+        <p>${c.Words} Words</p>
+
+    </div>
+
+    `;
+
+});
 
     html += "</div>";
 
