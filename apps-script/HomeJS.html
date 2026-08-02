@@ -193,14 +193,14 @@ function loadWordList(level){
 
      currentLevel = level;
 
-    const words = vocabulary.filter(w =>
-
+    const words = vocabulary
+    .filter(w =>
         w.Category == currentCategory &&
         w.Level == level
+    )
+    .sort((a, b) => a.Word.localeCompare(b.Word));
 
-    );
-
-    showWordList(level, words);
+showWordList(level, words);
 
 }
 
@@ -269,9 +269,9 @@ function showFavorites(){
     currentCategory = "⭐ Favorites";
     currentLevel = "";
 
-    currentWords = vocabulary.filter(w =>
-        favorites.includes(w.Word)
-    );
+    currentWords = vocabulary
+    .filter(w => favorites.includes(w.Word))
+    .sort((a, b) => a.Word.localeCompare(b.Word));
 
     let html = `
 
@@ -365,9 +365,11 @@ function filterSearch(text){
     currentCategory = "🔍 Search";
     currentLevel = "";
 
-    currentWords = vocabulary.filter(w =>
+    currentWords = vocabulary
+    .filter(w =>
         w.Word.toLowerCase().startsWith(text.toLowerCase())
-    );
+    )
+    .sort((a, b) => a.Word.localeCompare(b.Word));
 
     let html="";
 
