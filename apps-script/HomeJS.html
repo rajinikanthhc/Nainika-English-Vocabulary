@@ -6,7 +6,7 @@ google.script.run
 
 function showCategories(data){
 
-let html="<h1>Nainika English Vocabulary TEST</h1>";
+let html="<h1>📚 Nainika English Vocabulary</h1>";
 
 html+="<div class='grid'>";
 
@@ -14,13 +14,59 @@ data.forEach(c=>{
 
 html+=`
 
-<div class="card">
+<div class="card" onclick="loadLevels('${c.Category}')">
 
 <div class="emoji">${c.Emoji}</div>
 
 <h2>${c.Category}</h2>
 
 <p>${c.Words} Words</p>
+
+</div>
+
+`;
+
+});
+
+html+="</div>";
+
+document.getElementById("app").innerHTML=html;
+
+}
+
+function loadLevels(category){
+
+google.script.run
+.withSuccessHandler(function(levels){
+
+showLevels(category,levels);
+
+})
+.getLevels();
+
+}
+
+function showLevels(category,levels){
+
+let html=`
+
+<button onclick="location.reload()">← Back</button>
+
+<h1>${category}</h1>
+
+<div class="grid">
+
+`;
+
+levels.forEach(level=>{
+
+html+=`
+
+<div class="card">
+
+<div class="emoji">${level.emoji}</div>
+
+<h2>${level.name}</h2>
 
 </div>
 
