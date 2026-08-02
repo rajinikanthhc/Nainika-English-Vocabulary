@@ -10,21 +10,39 @@ function doGet() {
 
 function getCategories() {
 
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Categories");
+  const sheet = SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName("Vocabulary");
 
   const values = sheet.getDataRange().getValues();
-
   const headers = values.shift();
 
-  return values.map(r => {
+  const categoryIndex = headers.indexOf("Category");
+  const emojiIndex = headers.indexOf("Emoji");
 
-    let o = {};
+  const map = {};
 
-    headers.forEach((h,i)=>o[h]=r[i]);
+  values.forEach(r => {
 
-    return o;
+    const category = r[categoryIndex];
+    const emoji = r[emojiIndex];
+
+    if (!category) return;
+
+    if (!map[category]) {
+
+      map[category] = {
+        Category: category,
+        Emoji: emoji,
+        Words: 0
+      };
+
+    }
+
+    map[category].Words++;
 
   });
+
+  return Object.values(map);
 
 }
 
