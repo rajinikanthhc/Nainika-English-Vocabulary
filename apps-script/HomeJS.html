@@ -36,6 +36,10 @@ function showCategories(){
 
     let html = `
 
+<div class="home-page">
+
+<div class="home-header">
+
 <h1>📚 Nainika English Vocabulary</h1>
 
 <div class="home-toolbar">
@@ -50,31 +54,44 @@ function showCategories(){
 
 </div>
 
-`;
+</div>
 
-    html += "<div class='category-grid'>";
+<div class="home-content">
+
+<div class="category-grid">
+
+`;
 
     categories.forEach(c=>{
 
+        html += `
+
+<div class="category-card"
+onclick="loadLevels('${c.Category}')">
+
+<div class="emoji">
+${c.Category.charAt(0)}
+</div>
+
+<h2>${c.Category}</h2>
+
+<p>${c.Words} Words</p>
+
+</div>
+
+`;
+
+    });
+
     html += `
 
-    <div class="category-card" onclick="loadLevels('${c.Category}')">
+</div>
 
-        <div class="emoji">
-            ${c.Category.charAt(0)}
-        </div>
+</div>
 
-        <h2>${c.Category}</h2>
+</div>
 
-        <p>${c.Words} Words</p>
-
-    </div>
-
-    `;
-
-});
-
-    html += "</div>";
+`;
 
     document.getElementById("app").innerHTML = html;
 
