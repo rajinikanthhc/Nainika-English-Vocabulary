@@ -1,158 +1,155 @@
 <script>
 
 let categories = [];
-
 let vocabulary = [];
+let currentCategory = "";
 
 google.script.run
 .withSuccessHandler(function(data){
 
-categories = data;
+    categories = data;
 
-google.script.run
-.withSuccessHandler(function(words){
+    google.script.run
+    .withSuccessHandler(function(words){
 
-vocabulary = words;
+        vocabulary = words;
 
-showCategories(categories);
+        showCategories();
 
-})
-.getVocabulary();
+    })
+    .getVocabulary();
 
 })
 .getCategories();
 
-function showCategories(data){
+function showCategories(){
 
-let html="<h1>📚 Nainika English Vocabulary</h1>";
+    let html = "<h1>📚 Nainika English Vocabulary</h1>";
 
-html+="<div class='grid'>";
+    html += "<div class='grid'>";
 
-data.forEach(c=>{
+    categories.forEach(c=>{
 
-html+=`
+        html += `
 
-<div class="card" onclick="loadLevels('${c.Category}')">
+        <div class="card" onclick="loadLevels('${c.Category}')">
 
-<div class="emoji">${c.Emoji}</div>
+            <div class="emoji">${c.Emoji}</div>
 
-<h2>${c.Category}</h2>
+            <h2>${c.Category}</h2>
 
-<p>${c.Words} Words</p>
+            <p>${c.Words} Words</p>
 
-</div>
+        </div>
 
-`;
+        `;
 
-});
+    });
 
-html+="</div>";
+    html += "</div>";
 
-document.getElementById("app").innerHTML=html;
+    document.getElementById("app").innerHTML = html;
 
 }
 
-const levels=[
+const levels = [
 
-{emoji:"🌱",name:"Beginner"},
-
-{emoji:"📘",name:"Reader"},
-
-{emoji:"🧩",name:"Builder"},
-
-{emoji:"🔍",name:"Explorer"},
-
-{emoji:"🏆",name:"Master"}
+    {emoji:"🌱",name:"Beginner"},
+    {emoji:"📘",name:"Reader"},
+    {emoji:"🧩",name:"Builder"},
+    {emoji:"🔍",name:"Explorer"},
+    {emoji:"🏆",name:"Master"}
 
 ];
 
 function loadLevels(category){
 
-showLevels(category,levels);
+    currentCategory = category;
+
+    showLevels();
 
 }
 
-function showLevels(category,levels){
+function showLevels(){
 
-let html=`
+    let html = `
 
-<button onclick="location.reload()">← Back</button>
+    <button onclick="showCategories()">← Back</button>
 
-<h1>${category}</h1>
+    <h1>${currentCategory}</h1>
 
-<div class="grid">
+    <div class="grid">
 
-`;
+    `;
 
-levels.forEach(level=>{
+    levels.forEach(level=>{
 
-html+=`
+        html += `
 
-<div class="card" onclick="loadWordList('${category}','${level.name}')">
+        <div class="card" onclick="loadWordList('${level.name}')">
 
-<div class="emoji">${level.emoji}</div>
+            <div class="emoji">${level.emoji}</div>
 
-<h2>${level.name}</h2>
+            <h2>${level.name}</h2>
 
-</div>
+        </div>
 
-`;
+        `;
 
-});
+    });
 
-html+="</div>";
+    html += "</div>";
 
-document.getElementById("app").innerHTML=html;
-
-}
-
-function loadWordList(category,level){
-
-const words=vocabulary.filter(w=>
-
-w.Category==category &&
-
-w.Level==level
-
-);
-
-showWordList(category,level,words);
+    document.getElementById("app").innerHTML = html;
 
 }
 
-function showWordList(category, level, words){
+function loadWordList(level){
 
-let html=`
+    const words = vocabulary.filter(w =>
 
-<button onclick="loadLevels('${category}')">← Back</button>
+        w.Category == currentCategory &&
+        w.Level == level
 
-<h1>${category}</h1>
+    );
 
-<h2>${level}</h2>
+    showWordList(level, words);
 
-<div class="grid">
+}
 
-`;
+function showWordList(level, words){
 
-words.forEach(w=>{
+    let html = `
 
-html+=`
+    <button onclick="showLevels()">← Back</button>
 
-<div class="card">
+    <h1>${currentCategory}</h1>
 
-<h2>${w.Word}</h2>
+    <h2>${level}</h2>
 
-<p>${w.Meaning}</p>
+    <div class="grid">
 
-</div>
+    `;
 
-`;
+    words.forEach(w=>{
 
-});
+        html += `
 
-html+="</div>";
+        <div class="card">
 
-document.getElementById("app").innerHTML=html;
+            <h2>${w.Word}</h2>
+
+            <p>${w.Meaning}</p>
+
+        </div>
+
+        `;
+
+    });
+
+    html += "</div>";
+
+    document.getElementById("app").innerHTML = html;
 
 }
 
