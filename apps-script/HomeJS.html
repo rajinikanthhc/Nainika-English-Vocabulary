@@ -215,7 +215,17 @@ function showWord(index){
                 class="word-image"
                 src="${IMAGE_BASE + w.Image}">
 
-            <h1 class="word-title">${w.Word}</h1>
+            <div class="word-header">
+
+    <h1 class="word-title">
+        ${w.Word}
+    </h1>
+
+    <span class="favorite">
+        ☆
+    </span>
+
+</div>
 
             <div class="word-ipa">${w.IPA}</div>
 
