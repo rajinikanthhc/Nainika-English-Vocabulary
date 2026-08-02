@@ -1,106 +1,191 @@
 let categories = [];
 
-// Load categories from JSON
 async function loadCategories() {
     try {
+
         const response = await fetch("data/categories.json");
         categories = await response.json();
-        renderHome();
-    } catch (error) {
-        console.error("Error loading categories:", error);
 
-        document.getElementById("app").innerHTML = `
-            <h2 style="text-align:center;color:red;">
-                Failed to load categories.
-            </h2>
-        `;
+        showHome();
+
+    } catch (err) {
+
+        document.getElementById("app").innerHTML =
+            "<h2>Unable to load categories.</h2>";
+
+        console.error(err);
+
     }
 }
 
-// Create Category Card
-function createCategoryCard(category) {
+function showHome() {
 
-    return `
-        <div class="category-card">
-
-            <div class="emoji">
-                ${category.emoji}
-            </div>
-
-            <div class="category-name">
-                ${category.name}
-            </div>
-
-            <div class="word-count">
-                ${category.words} Words
-            </div>
-
-        </div>
-    `;
-}
-
-// Render Home Screen
-function renderHome() {
+    APP.currentScreen = "home";
 
     const app = document.getElementById("app");
 
     app.innerHTML = `
 
-        <header>
+<header class="header">
 
-            <h1>📖 ${CONFIG.APP_NAME}</h1>
+    <h1>🌈 Hello, Nainika!</h1>
 
-            <p>Learn • Speak • Grow</p>
+    <p>What would you like to learn today?</p>
 
-        </header>
+</header>
 
-        <div class="search-box">
+<section class="category-grid">
 
-            <span class="material-symbols-rounded">
-                search
-            </span>
+${categories.map(createCategoryCard).join("")}
 
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="Search vocabulary..."
-                onkeyup="filterCategories()">
+</section>
 
-        </div>
+<footer>
 
-        <section
-            id="categoryGrid"
-            class="category-grid">
+Version ${CONFIG.VERSION}
 
-            ${categories.map(createCategoryCard).join("")}
+</footer>
 
-        </section>
+`;
 
-        <footer>
-
-            Version ${CONFIG.VERSION}
-
-        </footer>
-
-    `;
-}
-
-// Search Filter
-function filterCategories() {
-
-    const keyword = document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase();
-
-    const filtered = categories.filter(category =>
-        category.name.toLowerCase().includes(keyword)
-    );
-
-    document.getElementById("categoryGrid").innerHTML =
-        filtered.map(createCategoryCard).join("");
+    bindCategoryEvents();
 
 }
 
-// Start App
+function createCategoryCard(category) {
+
+    return `
+
+<div
+class="category-card"
+data-category="${category.name}">
+
+<div
+class="emoji">
+
+${category.emoji}
+
+</div>
+
+<h2>
+
+${category.name}
+
+</h2>
+
+<p>
+
+${category.words} Words
+
+</p>
+
+<button class="learn-btn">
+
+Start Learning →
+
+</button>
+
+</div>
+
+`;
+
+}
+
+function bindCategoryEvents() {
+
+    document
+        .querySelectorAll(".category-card")
+        .forEach(card => {
+
+            card.addEventListener("click", () => {
+
+                APP.selectedCategory =
+                    card.dataset.category;
+
+                showLevels();
+
+            });
+
+        });
+
+}
+
+function showLevels() {
+
+    APP.currentScreen = "levels";
+
+    const app =
+        document.getElementById("app");
+
+    app.innerHTML = `
+
+<header class="header">
+
+<button
+class="back-btn">
+
+← Back
+
+</button>
+
+<h1>
+
+${APP.selectedCategory}
+
+</h1>
+
+<p>
+
+Choose your learning stage
+
+</p>
+
+</header>
+
+<div class="level-grid">
+
+${levelCard("🌱","Beginner",1)}
+
+${levelCard("📘","Reader",2)}
+
+${levelCard("🧩","Builder",3)}
+
+${levelCard("🔍","Explorer",4)}
+
+${levelCard("🏆","Master",5)}
+
+</div>
+
+`;
+
+    document
+        .querySelector(".back-btn")
+        .addEventListener("click", showHome);
+
+}
+
+function levelCard(icon,name,level){
+
+return`
+
+<div class="level-card">
+
+<div class="emoji">
+
+${icon}
+
+</div>
+
+<h2>
+
+${name}
+
+</h2>
+
+</div>
+
+`;
+
+}
+
 loadCategories();
