@@ -46,7 +46,7 @@ function getLevels() {
 
 }
 
-function getWords(category, level) {
+function getVocabulary() {
 
   const sheet = SpreadsheetApp
     .getActiveSpreadsheet()
@@ -56,19 +56,14 @@ function getWords(category, level) {
 
   const headers = values.shift();
 
-  return values
-    .map(r => {
+  return values.map(r => {
 
-      let o = {};
+    let o = {};
 
-      headers.forEach((h,i)=>o[h]=r[i]);
+    headers.forEach((h,i)=>o[h]=r[i]);
 
-      return o;
+    return o;
 
-    })
-    .filter(x =>
-      x.Category == category &&
-      x.Level == level
-    );
+  });
 
 }

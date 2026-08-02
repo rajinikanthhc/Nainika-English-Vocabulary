@@ -1,7 +1,25 @@
 <script>
 
+let categories = [];
+
+let vocabulary = [];
+
 google.script.run
-.withSuccessHandler(showCategories)
+.withSuccessHandler(function(data){
+
+categories = data;
+
+google.script.run
+.withSuccessHandler(function(words){
+
+vocabulary = words;
+
+showCategories(categories);
+
+})
+.getVocabulary();
+
+})
 .getCategories();
 
 function showCategories(data){
@@ -80,15 +98,17 @@ document.getElementById("app").innerHTML=html;
 
 }
 
-function loadWordList(category, level){
+function loadWordList(category,level){
 
-google.script.run
-.withSuccessHandler(function(words){
+const words=vocabulary.filter(w=>
 
-showWordList(category, level, words);
+w.Category==category &&
 
-})
-.getWords(category, level);
+w.Level==level
+
+);
+
+showWordList(category,level,words);
 
 }
 
