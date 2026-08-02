@@ -3,6 +3,11 @@
 let categories = [];
 let vocabulary = [];
 let currentCategory = "";
+let currentWords = [];
+let currentIndex = 0;
+
+const IMAGE_BASE =
+"https://raw.githubusercontent.com/rajinikanthhc/images/main/";
 
 google.script.run
 .withSuccessHandler(function(data){
@@ -119,6 +124,8 @@ function loadWordList(level){
 
 function showWordList(level, words){
 
+    currentWords = words;
+
     let html = `
 
     <button onclick="showLevels()">← Back</button>
@@ -131,11 +138,11 @@ function showWordList(level, words){
 
     `;
 
-    words.forEach(w=>{
+    words.forEach((w,index)=>{
 
         html += `
 
-        <div class="card">
+        <div class="card" onclick="showWord(${index})">
 
             <h2>${w.Word}</h2>
 
@@ -150,6 +157,136 @@ function showWordList(level, words){
     html += "</div>";
 
     document.getElementById("app").innerHTML = html;
+
+}
+
+function showWord(index){
+
+    currentIndex = index;
+
+    const w = currentWords[index];
+
+    let html = `
+
+<button onclick="showWordList('${w.Level}',currentWords)">← Back</button>
+
+<div class="card" style="max-width:1100px;margin:20px auto;padding:30px;">
+
+<div style="display:flex;gap:40px;align-items:flex-start;">
+
+    <!-- LEFT -->
+
+    <div style="flex:1;text-align:center;">
+
+        <img
+        src="${IMAGE_BASE+w.Image}"
+        style="
+        width:320px;
+        height:320px;
+        object-fit:contain;
+        border-radius:15px;
+        ">
+
+        <h1 style="margin-top:20px;font-size:42px;">
+        ${w.Word}
+        </h1>
+
+        <div style="font-size:22px;color:#666;">
+        ${w.IPA}
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT -->
+
+    <div style="flex:1.4;font-size:20px;line-height:1.8;">
+
+        <p><b>📖 Meaning</b><br>${w.Meaning}</p>
+
+        <p><b>🇮🇳 Kannada</b><br>${w.Kannada}</p>
+
+        <p><b>💬 Sentence</b><br>${w.Sentence}</p>
+
+        <hr>
+
+        <table style="width:100%;font-size:18px;">
+
+            <tr>
+                <td><b>🤝 Friend</b></td>
+                <td>${w.FriendWord}</td>
+            </tr>
+
+            <tr>
+                <td><b>↔ Opposite</b></td>
+                <td>${w.Opposite}</td>
+            </tr>
+
+            <tr>
+                <td><b>🎵 Rhyming</b></td>
+                <td>${w.Rhyming}</td>
+            </tr>
+
+            <tr>
+                <td><b>🔤 Phonics</b></td>
+                <td>${w.Phonics}</td>
+            </tr>
+
+            <tr>
+                <td><b>🔊 Syllables</b></td>
+                <td>${w.Syllables}</td>
+            </tr>
+
+            <tr>
+                <td><b>👨‍👩‍👧 Word Family</b></td>
+                <td>${w.WordFamily}</td>
+            </tr>
+
+        </table>
+
+        <hr>
+
+        <p>
+        ⭐ <b>Fun Fact</b><br>
+        ${w.FunFact}
+        </p>
+
+    </div>
+
+</div>
+
+<div style="margin-top:30px;display:flex;justify-content:space-between;">
+
+    <button onclick="previousWord()">⬅ Previous</button>
+
+    <button onclick="nextWord()">Next ➡</button>
+
+</div>
+
+</div>
+
+`;
+document.getElementById("app").innerHTML = html;
+
+}
+
+function previousWord(){
+
+    if(currentIndex>0){
+
+        showWord(currentIndex-1);
+
+    }
+
+}
+
+function nextWord(){
+
+    if(currentIndex<currentWords.length-1){
+
+        showWord(currentIndex+1);
+
+    }
 
 }
 
