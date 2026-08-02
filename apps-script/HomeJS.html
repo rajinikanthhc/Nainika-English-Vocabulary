@@ -7,6 +7,7 @@ let currentWords = [];
 let currentIndex = 0;
 let currentLevel = "";
 let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+let isFavoriteMode = false;
 
 const IMAGE_BASE =
 "https://raw.githubusercontent.com/rajinikanthhc/images/main/";
@@ -31,7 +32,19 @@ google.script.run
 
 function showCategories(){
 
-    let html = "<h1>📚 Nainika English Vocabulary</h1>";
+    let html = `
+
+<h1>📚 Nainika English Vocabulary</h1>
+
+<div style="text-align:center;margin:20px 0;">
+
+<button onclick="showFavorites()">
+⭐ Favorite Words
+</button>
+
+</div>
+
+`;
 
     html += "<div class='category-grid'>";
 
@@ -113,6 +126,8 @@ function showLevels(){
 
 function loadWordList(level){
 
+    isFavoriteMode = false;
+
      currentLevel = level;
 
     const words = vocabulary.filter(w =>
@@ -166,6 +181,70 @@ function showWordList(level, words){
 
 }
 
+function showFavorites(){
+
+    isFavoriteMode = true;
+
+    currentCategory = "⭐ Favorites";
+    currentLevel = "";
+
+    currentWords = vocabulary.filter(w =>
+        favorites.includes(w.Word)
+    );
+
+    let html = `
+
+<button onclick="showCategories()">
+← Back
+</button>
+
+<h1>⭐ Favorite Words</h1>
+
+<div class="category-grid">
+
+`;
+
+    if(currentWords.length===0){
+
+        html += `
+
+<div class="category-card">
+
+<h2>No favorite words</h2>
+
+<p>Tap ☆ beside a word.</p>
+
+</div>
+
+`;
+
+    }else{
+
+        currentWords.forEach((w,index)=>{
+
+            html += `
+
+<div class="category-card"
+onclick="showWord(${index})">
+
+<h2>${w.Word}</h2>
+
+<p>${w.Meaning}</p>
+
+</div>
+
+`;
+
+        });
+
+    }
+
+    html += "</div>";
+
+    document.getElementById("app").innerHTML = html;
+
+}
+
 function shuffleWords(){
 
     for(let i=currentWords.length-1;i>0;i--){
@@ -195,7 +274,7 @@ function showWord(index){
 
     <div class="top-bar">
 
-    <button onclick="showWordList('${w.Level}',currentWords)">
+    <button onclick="${isFavoriteMode ? 'showFavorites()' : `showWordList('${w.Level}',currentWords)`}">
         ← Back
     </button>
 
