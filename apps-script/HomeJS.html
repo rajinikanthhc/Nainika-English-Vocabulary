@@ -137,6 +137,8 @@ function showWordList(level, words){
 
     <h2>${level}</h2>
 
+    <button onclick="shuffleWords()">🔀 Shuffle</button>
+
     <div class="category-grid">
 
     `;
@@ -160,6 +162,23 @@ function showWordList(level, words){
     html += "</div>";
 
     document.getElementById("app").innerHTML = html;
+
+}
+
+function shuffleWords(){
+
+    for(let i=currentWords.length-1;i>0;i--){
+
+        const j=Math.floor(Math.random()*(i+1));
+
+        [currentWords[i],currentWords[j]]=
+        [currentWords[j],currentWords[i]];
+
+    }
+
+    currentIndex=0;
+
+    showWord(0);
 
 }
 
