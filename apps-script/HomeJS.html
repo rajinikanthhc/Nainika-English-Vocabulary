@@ -37,7 +37,7 @@ function showCategories(){
 
         html += `
 
-        <div class="card" onclick="loadLevels('${c.Category}')">
+        <div class="category-card" onclick="loadLevels('${c.Category}')">
 
             <div class="emoji">${c.Emoji}</div>
 
@@ -91,7 +91,7 @@ function showLevels(){
 
         html += `
 
-        <div class="card" onclick="loadWordList('${level.name}')">
+        <div class="category-card" onclick="loadWordList('${level.name}')">
 
             <div class="emoji">${level.emoji}</div>
 
@@ -142,7 +142,7 @@ function showWordList(level, words){
 
         html += `
 
-        <div class="card" onclick="showWord(${index})">
+        <div class="category-card" onclick="showWord(${index})">
 
             <h2>${w.Word}</h2>
 
@@ -170,103 +170,103 @@ function showWord(index){
 
 <button onclick="showWordList('${w.Level}',currentWords)">← Back</button>
 
-<div class="card" style="max-width:1100px;margin:20px auto;padding:30px;">
+<div class="detail-card">
 
-<div style="display:flex;gap:40px;align-items:flex-start;">
+    <div class="detail-layout">
 
-    <!-- LEFT -->
+        <div>
 
-    <div style="flex:1;text-align:center;">
+            <img
+                class="word-image"
+                src="${IMAGE_BASE + w.Image}">
 
-        <img
-        src="${IMAGE_BASE+w.Image}"
-        style="
-        width:320px;
-        height:320px;
-        object-fit:contain;
-        border-radius:15px;
-        ">
+            <h1 class="word-title">${w.Word}</h1>
 
-        <h1 style="margin-top:20px;font-size:42px;">
-        ${w.Word}
-        </h1>
+            <div class="word-ipa">${w.IPA}</div>
 
-        <div style="font-size:22px;color:#666;">
-        ${w.IPA}
+        </div>
+
+        <div>
+
+            <table class="info-table">
+
+                <tr>
+                    <td>📖 Meaning</td>
+                    <td>${w.Meaning}</td>
+                </tr>
+
+                <tr>
+                    <td>🇮🇳 Kannada</td>
+                    <td>${w.Kannada}</td>
+                </tr>
+
+                <tr>
+                    <td>💬 Sentence</td>
+                    <td>${w.Sentence}</td>
+                </tr>
+
+                <tr>
+                    <td>🤝 Friend Word</td>
+                    <td>${w.FriendWord}</td>
+                </tr>
+
+                <tr>
+                    <td>↔ Opposite</td>
+                    <td>${w.Opposite}</td>
+                </tr>
+
+                <tr>
+                    <td>🎵 Rhyming</td>
+                    <td>${w.Rhyming}</td>
+                </tr>
+
+                <tr>
+                    <td>🔤 Phonics</td>
+                    <td>${w.Phonics}</td>
+                </tr>
+
+                <tr>
+                    <td>🔊 IPA</td>
+                    <td>${w.IPA}</td>
+                </tr>
+
+                <tr>
+                    <td>🔢 Syllables</td>
+                    <td>${w.Syllables}</td>
+                </tr>
+
+                <tr>
+                    <td>👨‍👩‍👧 Word Family</td>
+                    <td>${w.WordFamily}</td>
+                </tr>
+
+            </table>
+
+            <div class="fun-fact">
+
+                ⭐ <b>Fun Fact</b><br><br>
+
+                ${w.FunFact}
+
+            </div>
+
         </div>
 
     </div>
 
+    <div class="nav-buttons">
 
-    <!-- RIGHT -->
+        <button onclick="previousWord()">⬅ Previous</button>
 
-    <div style="flex:1.4;font-size:20px;line-height:1.8;">
-
-        <p><b>📖 Meaning</b><br>${w.Meaning}</p>
-
-        <p><b>🇮🇳 Kannada</b><br>${w.Kannada}</p>
-
-        <p><b>💬 Sentence</b><br>${w.Sentence}</p>
-
-        <hr>
-
-        <table style="width:100%;font-size:18px;">
-
-            <tr>
-                <td><b>🤝 Friend</b></td>
-                <td>${w.FriendWord}</td>
-            </tr>
-
-            <tr>
-                <td><b>↔ Opposite</b></td>
-                <td>${w.Opposite}</td>
-            </tr>
-
-            <tr>
-                <td><b>🎵 Rhyming</b></td>
-                <td>${w.Rhyming}</td>
-            </tr>
-
-            <tr>
-                <td><b>🔤 Phonics</b></td>
-                <td>${w.Phonics}</td>
-            </tr>
-
-            <tr>
-                <td><b>🔊 Syllables</b></td>
-                <td>${w.Syllables}</td>
-            </tr>
-
-            <tr>
-                <td><b>👨‍👩‍👧 Word Family</b></td>
-                <td>${w.WordFamily}</td>
-            </tr>
-
-        </table>
-
-        <hr>
-
-        <p>
-        ⭐ <b>Fun Fact</b><br>
-        ${w.FunFact}
-        </p>
+        <button onclick="nextWord()">Next ➡</button>
 
     </div>
 
 </div>
 
-<div style="margin-top:30px;display:flex;justify-content:space-between;">
-
-    <button onclick="previousWord()">⬅ Previous</button>
-
-    <button onclick="nextWord()">Next ➡</button>
-
-</div>
-
-</div>
-
 `;
-document.getElementById("app").innerHTML = html;
+
+    document.getElementById("app").innerHTML = html;
 
 }
 
