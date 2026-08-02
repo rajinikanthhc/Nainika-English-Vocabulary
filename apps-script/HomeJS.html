@@ -10,7 +10,10 @@ let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 let isFavoriteMode = false;
 let searchText = "";
 let searchMode = false;
+let homeScroll = 0;
 let wordListScroll = 0;
+let favoriteScroll = 0;
+let searchScroll = 0;
 
 const IMAGE_BASE =
 "https://raw.githubusercontent.com/rajinikanthhc/images/main/";
@@ -95,7 +98,7 @@ function showCategories(){
 
 </div>
 
-<div class="home-content" id="wordListContent">
+<div class="home-content" id="homeContent">
 
 <div class="category-grid">
 
@@ -106,10 +109,10 @@ function showCategories(){
         html += `
 
 <div class="category-card"
-onclick="loadLevels('${c.Category}')">
+onclick="saveHomeScroll('${c.Category}')">
 
 <div class="emoji">
-    ${getCategoryEmoji(c.Category)}
+${getCategoryEmoji(c.Category)}
 </div>
 
 <h2>${c.Category}</h2>
@@ -133,6 +136,18 @@ onclick="loadLevels('${c.Category}')">
 `;
 
     document.getElementById("app").innerHTML = html;
+
+    setTimeout(() => {
+
+    const div = document.getElementById("homeContent");
+
+    if(div){
+
+        div.scrollTop = homeScroll;
+
+    }
+
+},0);
 
 }
 
@@ -236,7 +251,7 @@ function showWordList(level, words){
         html += `
 
         <div class="category-card"
-onclick="saveScrollAndOpen(${index}, this)">
+onclick="saveScrollAndOpen(${index})">
 
             <h2>${w.Word}</h2>
 
@@ -292,6 +307,48 @@ function saveScrollAndOpen(index){
 
 }
 
+function saveHomeScroll(category){
+
+    const div=document.getElementById("homeContent");
+
+    if(div){
+
+        homeScroll=div.scrollTop;
+
+    }
+
+    loadLevels(category);
+
+}
+
+function saveFavoriteScrollAndOpen(index){
+
+    const div=document.getElementById("favoriteContent");
+
+    if(div){
+
+        favoriteScroll=div.scrollTop;
+
+    }
+
+    showWord(index);
+
+}
+
+function saveSearchScrollAndOpen(index){
+
+    const div=document.getElementById("searchContent");
+
+    if(div){
+
+        searchScroll=div.scrollTop;
+
+    }
+
+    showWord(index);
+
+}
+
 function showFavorites(){
 
     isFavoriteMode = true;
@@ -309,7 +366,17 @@ function showFavorites(){
 ← Back
 </button>
 
+<div class="home-page">
+
+<div class="home-header">
+
+<button onclick="showCategories()">← Back</button>
+
 <h1>⭐ Favorite Words</h1>
+
+</div>
+
+<div class="home-content" id="favoriteContent">
 
 <div class="category-grid">
 
@@ -336,7 +403,7 @@ function showFavorites(){
             html += `
 
 <div class="category-card"
-onclick="showWord(${index})">
+onclick="saveFavoriteScrollAndOpen(${index})">
 
 <h2>${w.Word}</h2>
 
@@ -350,10 +417,28 @@ onclick="showWord(${index})">
 
     }
 
-    html += "</div>";
+    html += `
+
+</div>
+
+</div>
+
+</div>
+
+`;
 
     document.getElementById("app").innerHTML = html;
+setTimeout(()=>{
 
+    const div=document.getElementById("favoriteContent");
+
+    if(div){
+
+        div.scrollTop=favoriteScroll;
+
+    }
+
+},0);
 }
 
 function showSearchPage(){
@@ -382,7 +467,7 @@ autocomplete="off">
 
 </div>
 
-<div class="home-content">
+<div class="home-content" id="searchContent">
 
 <div id="searchList" class="category-grid"></div>
 
@@ -393,6 +478,18 @@ autocomplete="off">
 `;
 
     document.getElementById("app").innerHTML = html;
+
+    setTimeout(()=>{
+
+    const div=document.getElementById("searchContent");
+
+    if(div){
+
+        div.scrollTop=searchScroll;
+
+    }
+
+},0);
 
     document.getElementById("searchInput").focus();
 
@@ -420,7 +517,7 @@ function filterSearch(text){
         html+=`
 
 <div class="category-card"
-onclick="showWord(${index})">
+onclick="saveSearchScrollAndOpen(${index})">
 
 <h2>${w.Word}</h2>
 
