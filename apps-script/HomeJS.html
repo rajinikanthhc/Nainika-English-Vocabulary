@@ -8,6 +8,8 @@ let currentIndex = 0;
 let currentLevel = "";
 let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 let isFavoriteMode = false;
+let searchText = "";
+let searchMode = false;
 
 const IMAGE_BASE =
 "https://raw.githubusercontent.com/rajinikanthhc/images/main/";
@@ -36,10 +38,14 @@ function showCategories(){
 
 <h1>📚 Nainika English Vocabulary</h1>
 
-<div style="text-align:center;margin:20px 0;">
+<div class="home-toolbar">
 
 <button onclick="showFavorites()">
 ⭐ Favorite Words
+</button>
+
+<button onclick="showSearchPage()">
+🔍 Search Words
 </button>
 
 </div>
@@ -245,6 +251,82 @@ onclick="showWord(${index})">
 
 }
 
+function showSearchPage(){
+
+    searchMode = true;
+
+    let html = `
+
+<button onclick="goHomeFromSearch()">
+← Back
+</button>
+
+<h1>🔍 Search Words</h1>
+
+<input
+id="searchInput"
+type="text"
+placeholder="Start typing..."
+value="${searchText}"
+onkeyup="filterSearch(this.value)"
+autocomplete="off">
+
+<div id="searchList" class="category-grid"></div>
+
+`;
+
+    document.getElementById("app").innerHTML = html;
+
+    document.getElementById("searchInput").focus();
+
+    filterSearch(searchText);
+
+}
+
+function filterSearch(text){
+
+    searchText = text;
+
+    currentCategory = "🔍 Search";
+    currentLevel = "";
+
+    currentWords = vocabulary.filter(w =>
+        w.Word.toLowerCase().startsWith(text.toLowerCase())
+    );
+
+    let html="";
+
+    currentWords.forEach((w,index)=>{
+
+        html+=`
+
+<div class="category-card"
+onclick="showWord(${index})">
+
+<h2>${w.Word}</h2>
+
+<p>${w.Meaning}</p>
+
+</div>
+
+`;
+
+    });
+
+    document.getElementById("searchList").innerHTML=html;
+
+}
+
+function goHomeFromSearch(){
+
+    searchMode=false;
+
+    searchText="";
+
+    showCategories();
+
+}
+
 function shuffleWords(){
 
     for(let i=currentWords.length-1;i>0;i--){
@@ -274,7 +356,7 @@ function showWord(index){
 
     <div class="top-bar">
 
-    <button onclick="${isFavoriteMode ? 'showFavorites()' : `showWordList('${w.Level}',currentWords)`}">
+    <button onclick="goBack()">
         ← Back
     </button>
 
@@ -430,6 +512,26 @@ function nextWord(){
         showWord(currentIndex+1);
 
     }
+
+}
+
+function goBack(){
+
+    if(searchMode){
+
+        showSearchPage();
+        return;
+
+    }
+
+    if(isFavoriteMode){
+
+        showFavorites();
+        return;
+
+    }
+
+    showWordList(currentLevel,currentWords);
 
 }
 
