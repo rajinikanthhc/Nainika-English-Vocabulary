@@ -186,6 +186,22 @@ function showWord(index){
 
             <div class="word-ipa">${w.IPA}</div>
 
+<div class="speech-buttons">
+
+<button onclick="speakText('${w.Word}')">
+🔊 Word
+</button>
+
+<button onclick="speakText('${w.Sentence}')">
+🗣 Sentence
+</button>
+
+<button onclick="speakKannada('${w.Kannada}')">
+🇮🇳 Kannada
+</button>
+
+</div>
+
         </div>
 
         <!-- RIGHT -->
@@ -286,6 +302,36 @@ function nextWord(){
         showWord(currentIndex+1);
 
     }
+
+}
+
+function speakText(text){
+
+    speechSynthesis.cancel();
+
+    const msg = new SpeechSynthesisUtterance(text);
+
+    msg.lang = "en-US";
+
+    msg.rate = 0.75;
+
+    msg.pitch = 1;
+
+    speechSynthesis.speak(msg);
+
+}
+
+function speakKannada(text){
+
+    speechSynthesis.cancel();
+
+    const msg = new SpeechSynthesisUtterance(text);
+
+    msg.lang = "kn-IN";
+
+    msg.rate = 0.75;
+
+    speechSynthesis.speak(msg);
 
 }
 
