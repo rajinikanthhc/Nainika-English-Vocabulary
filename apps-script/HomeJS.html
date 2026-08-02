@@ -186,20 +186,10 @@ function showWord(index){
 
             <div class="word-ipa">${w.IPA}</div>
 
-<div class="speech-buttons">
-
-<button onclick="speakText('${w.Word}')">
-🔊 Word
-</button>
-
-<button onclick="speakText('${w.Sentence}')">
-🗣 Sentence
-</button>
-
-<button onclick="speakKannada('${w.Kannada}')">
-🇮🇳 Kannada
-</button>
-
+<div class="word-speak"
+     onclick="speakText('${w.Word}')"
+     title="Speak Word">
+    🔊
 </div>
 
         </div>
@@ -211,19 +201,31 @@ function showWord(index){
             <table class="info-table">
 
                 <tr>
-                    <td>📖 Meaning</td>
-                    <td>${w.Meaning}</td>
-                </tr>
+    <td>📖 Meaning</td>
+    <td class="speak-cell">
+        <span>${w.Meaning}</span>
+        <span class="row-speak"
+              onclick="speakText('${w.Meaning}')">🔊</span>
+    </td>
+</tr>
 
                 <tr>
-                    <td>🇮🇳 Kannada</td>
-                    <td>${w.Kannada}</td>
-                </tr>
+    <td>🇮🇳 Kannada</td>
+    <td class="speak-cell">
+        <span>${w.Kannada}</span>
+        <span class="row-speak"
+              onclick="speakKannada('${w.Kannada}')">🔊</span>
+    </td>
+</tr>
 
                 <tr>
-                    <td>💬 Sentence</td>
-                    <td>${w.Sentence}</td>
-                </tr>
+    <td>💬 Sentence</td>
+    <td class="speak-cell">
+        <span>${w.Sentence}</span>
+        <span class="row-speak"
+              onclick="speakText('${w.Sentence}')">🔊</span>
+    </td>
+</tr>
 
                 <tr>
                     <td>🤝 Friend Word</td>

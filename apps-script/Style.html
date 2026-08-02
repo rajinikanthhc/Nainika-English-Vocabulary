@@ -307,27 +307,46 @@ body{
 
 }
 
-.speech-buttons{
+/* ---------- SPEAKER ICONS ---------- */
 
-    display:flex;
+.word-speak{
 
-    flex-direction:column;
-
-    gap:8px;
-
-    margin-top:18px;
-
-    width:100%;
+    margin-top:12px;
+    font-size:30px;
+    cursor:pointer;
+    color:#2196F3;
+    transition:.2s;
 
 }
 
-.speech-buttons button{
+.word-speak:hover{
 
-    width:100%;
+    transform:scale(1.2);
 
-    font-size:14px;
+}
 
-    padding:8px;
+.speak-cell{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+
+}
+
+.row-speak{
+
+    cursor:pointer;
+    font-size:18px;
+    color:#2196F3;
+    flex-shrink:0;
+    transition:.2s;
+
+}
+
+.row-speak:hover{
+
+    transform:scale(1.2);
 
 }
 
