@@ -5,6 +5,7 @@ let vocabulary = [];
 let currentCategory = "";
 let currentWords = [];
 let currentIndex = 0;
+let currentLevel = "";
 
 const IMAGE_BASE =
 "https://raw.githubusercontent.com/rajinikanthhc/images/main/";
@@ -111,6 +112,8 @@ function showLevels(){
 
 function loadWordList(level){
 
+     currentLevel = level;
+
     const words = vocabulary.filter(w =>
 
         w.Category == currentCategory &&
@@ -171,6 +174,16 @@ function showWord(index){
 <div class="detail-card">
 
     <button onclick="showWordList('${w.Level}',currentWords)">← Back</button>
+
+    <div class="progress">
+
+    ${currentCategory} • ${currentLevel}
+
+    <br>
+
+    Word ${currentIndex + 1} of ${currentWords.length}
+
+</div>
 
     <div class="detail-layout">
 
