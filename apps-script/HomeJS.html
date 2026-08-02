@@ -10,6 +10,7 @@ let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 let isFavoriteMode = false;
 let searchText = "";
 let searchMode = false;
+let wordListScroll = 0;
 
 const IMAGE_BASE =
 "https://raw.githubusercontent.com/rajinikanthhc/images/main/";
@@ -94,7 +95,7 @@ function showCategories(){
 
 </div>
 
-<div class="home-content">
+<div class="home-content" id="wordListContent">
 
 <div class="category-grid">
 
@@ -224,7 +225,7 @@ function showWordList(level, words){
 
 </div>
 
-<div class="home-content">
+<div class="home-content" id="wordListContent">
 
 <div class="category-grid">
 
@@ -234,7 +235,8 @@ function showWordList(level, words){
 
         html += `
 
-        <div class="category-card" onclick="showWord(${index})">
+        <div class="category-card"
+onclick="saveScrollAndOpen(${index}, this)">
 
             <h2>${w.Word}</h2>
 
@@ -259,6 +261,34 @@ function showWordList(level, words){
 `;
 
 document.getElementById("app").innerHTML = html;
+
+setTimeout(() => {
+
+    const div = document.getElementById("wordListContent");
+
+    if(div){
+
+        div.scrollTop = wordListScroll;
+
+    }
+
+},0);
+
+}
+
+function saveScrollAndOpen(index){
+
+    const div = document.getElementById("wordListContent");
+
+    if(div){
+
+        wordListScroll = div.scrollTop;
+
+    }
+
+    currentIndex = index;
+
+    showWord(index);
 
 }
 
@@ -620,7 +650,7 @@ function goBack(){
 
     }
 
-    showWordList(currentLevel,currentWords);
+    showWordList(currentLevel, currentWords);
 
 }
 
