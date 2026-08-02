@@ -32,6 +32,44 @@ google.script.run
 })
 .getCategories();
 
+function getCategoryEmoji(category){
+
+    const icons = {
+
+        "Actions":"🏃",
+        "Animals":"🐶",
+        "Body Parts":"🖐️",
+        "Clothes":"👕",
+        "Describing Words":"💬",
+        "Events":"🎉",
+        "Fantasy":"🧚",
+        "Feelings":"😊",
+        "Food":"🍔",
+        "Fruits":"🍎",
+        "Geography":"🌍",
+        "Home":"🏠",
+        "Music":"🎵",
+        "Nature":"🌳",
+        "Nouns":"📖",
+        "People":"👨",
+        "Places":"📍",
+        "Position":"↔️",
+        "School":"🏫",
+        "Sight Word":"👀",
+        "Sight Words":"👀",
+        "Sports":"⚽",
+        "Time":"🕒",
+        "Tools":"🛠️",
+        "Toys":"🧸",
+        "Transport":"🚗",
+        "Vegetables":"🥕"
+
+    };
+
+    return icons[category] || "📚";
+
+}
+
 function showCategories(){
 
     let html = `
@@ -70,7 +108,7 @@ function showCategories(){
 onclick="loadLevels('${c.Category}')">
 
 <div class="emoji">
-${c.Category.charAt(0)}
+    ${getCategoryEmoji(c.Category)}
 </div>
 
 <h2>${c.Category}</h2>
