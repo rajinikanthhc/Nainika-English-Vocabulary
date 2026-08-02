@@ -62,11 +62,59 @@ levels.forEach(level=>{
 
 html+=`
 
-<div class="card">
+<div class="card" onclick="loadWordList('${category}','${level.name}')">
 
 <div class="emoji">${level.emoji}</div>
 
 <h2>${level.name}</h2>
+
+</div>
+
+`;
+
+});
+
+html+="</div>";
+
+document.getElementById("app").innerHTML=html;
+
+}
+
+function loadWordList(category, level){
+
+google.script.run
+.withSuccessHandler(function(words){
+
+showWordList(category, level, words);
+
+})
+.getWords(category, level);
+
+}
+
+function showWordList(category, level, words){
+
+let html=`
+
+<button onclick="loadLevels('${category}')">← Back</button>
+
+<h1>${category}</h1>
+
+<h2>${level}</h2>
+
+<div class="grid">
+
+`;
+
+words.forEach(w=>{
+
+html+=`
+
+<div class="card">
+
+<h2>${w.Word}</h2>
+
+<p>${w.Meaning}</p>
 
 </div>
 

@@ -45,3 +45,30 @@ function getLevels() {
   ];
 
 }
+
+function getWords(category, level) {
+
+  const sheet = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getSheetByName("Vocabulary");
+
+  const values = sheet.getDataRange().getValues();
+
+  const headers = values.shift();
+
+  return values
+    .map(r => {
+
+      let o = {};
+
+      headers.forEach((h,i)=>o[h]=r[i]);
+
+      return o;
+
+    })
+    .filter(x =>
+      x.Category == category &&
+      x.Level == level
+    );
+
+}
