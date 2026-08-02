@@ -52,15 +52,23 @@ document.getElementById("app").innerHTML=html;
 
 }
 
+const levels=[
+
+{emoji:"🌱",name:"Beginner"},
+
+{emoji:"📘",name:"Reader"},
+
+{emoji:"🧩",name:"Builder"},
+
+{emoji:"🔍",name:"Explorer"},
+
+{emoji:"🏆",name:"Master"}
+
+];
+
 function loadLevels(category){
 
-google.script.run
-.withSuccessHandler(function(levels){
-
 showLevels(category,levels);
-
-})
-.getLevels();
 
 }
 

@@ -28,24 +28,6 @@ function getCategories() {
 
 }
 
-function getLevels() {
-
-  return [
-
-    {id:1,name:"Beginner",emoji:"🌱"},
-
-    {id:2,name:"Reader",emoji:"📘"},
-
-    {id:3,name:"Builder",emoji:"🧩"},
-
-    {id:4,name:"Explorer",emoji:"🔍"},
-
-    {id:5,name:"Master",emoji:"🏆"}
-
-  ];
-
-}
-
 function getVocabulary() {
 
   const sheet = SpreadsheetApp
