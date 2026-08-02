@@ -6,6 +6,7 @@ let currentCategory = "";
 let currentWords = [];
 let currentIndex = 0;
 let currentLevel = "";
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
 const IMAGE_BASE =
 "https://raw.githubusercontent.com/rajinikanthhc/images/main/";
@@ -221,9 +222,12 @@ function showWord(index){
         ${w.Word}
     </h1>
 
-    <span class="favorite">
-        ☆
-    </span>
+    <span class="favorite"
+      onclick="toggleFavorite('${w.Word}')">
+
+    ${isFavorite(w.Word) ? "⭐" : "☆"}
+
+</span>
 
 </div>
 
@@ -347,6 +351,33 @@ function nextWord(){
         showWord(currentIndex+1);
 
     }
+
+}
+
+function isFavorite(word){
+
+    return favorites.includes(word);
+
+}
+
+function toggleFavorite(word){
+
+    if(isFavorite(word)){
+
+        favorites = favorites.filter(w => w !== word);
+
+    }else{
+
+        favorites.push(word);
+
+    }
+
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+    );
+
+    showWord(currentIndex);
 
 }
 
